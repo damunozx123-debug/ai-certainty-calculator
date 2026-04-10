@@ -1,0 +1,23 @@
+import streamlit as st
+
+st.set_page_config(page_title="AI Infra Certainty Calculator", layout="wide")
+
+st.title("🔒 AI Infrastructure Certainty Calculator")
+
+col1, col2, col3 = st.columns(3)
+with col1:
+    monthly_spend = st.number_input("Monthly AI spend ($)", min_value=1000, value=200000)
+with col2:
+    model = st.selectbox("Primary model", ["GPT-4o", "Llama 70B", "Claude 3.5", "Custom"])
+with col3:
+    variance_pct = st.slider("Typical surprise (%)", 10, 50, 35)
+
+uncertainty_tax_mo = monthly_spend * (variance_pct / 100)
+uncertainty_tax_yr = uncertainty_tax_mo * 12
+roi_days = 5000 / uncertainty_tax_mo * 30
+
+st.metric("Uncertainty tax", f"${uncertainty_tax_mo:,.0f}/month")
+st.metric("Annual waste", f"${uncertainty_tax_yr:,.0f}/year")
+st.info(f"Audit pays back in {roi_days:.0f} days")
+
+st.button("Book Audit → Calendly", type="primary")
