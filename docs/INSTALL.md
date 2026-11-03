@@ -12,16 +12,16 @@ cd ai-certainty-calculator
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install streamlit
-streamlit run "App. Py"
+streamlit run "app.py"
 ```
 
-On Windows PowerShell use `py -m venv .venv`, `.venv\Scripts\Activate.ps1` and `py -m streamlit run "App. Py"`.
+On Windows PowerShell use `py -m venv .venv`, `.venv\Scripts\Activate.ps1` and `py -m streamlit run "app.py"`.
 
 ## Using the app
 
-Enter monthly spend and a scenario variance percentage; the two dollar amounts are `spend × percentage` and `12 × monthly variance`. The displayed payback is an illustrative assumption from a hard-coded $5,000 fee, not an offer or measured ROI. The model selector is informational only.
+Enter monthly spend and a scenario variance percentage; the two dollar amounts are `spend × percentage` and `12 × monthly variance`. The displayed payback uses a user-adjustable hypothetical audit fee (default $5,000), not an offer or measured ROI. The model selector is informational only.
 
-The original booking button does not complete a booking. **Do not send actual client billing documents to the repo or GitHub issues.**
+The retired booking button was removed because no booking service exists. **Do not send actual client billing documents to the repo or GitHub issues.**
 
 ## Screenshots
 
