@@ -1,3 +1,5 @@
+![AI CERTAINTY CALCULATOR | Ice in Silicon banner](assets/ice-in-silicon/readme-banner.svg)
+
 # AI Infrastructure Cost Sensitivity Calculator
 
 A small open-source Streamlit app for **hypothetical AI-spend scenarios**, not cloud billing audits or verified savings forecasts.
