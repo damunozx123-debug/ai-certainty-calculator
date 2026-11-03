@@ -1,61 +1,51 @@
 # AI Infrastructure Cost Sensitivity Calculator
 
-> **👋 Made by Daniel Munoz** · [Meet the maker](https://github.com/damunozx123-debug/ventoy-fetch/blob/master/PORTFOLIO.md) · [Other projects](https://github.com/damunozx123-debug/ventoy-fetch/blob/master/PROJECTS.md) · [Hire / contact](mailto:damunozx123@gmail.com?subject=Technical%20work%20opportunity)
+A small open-source Streamlit app for **hypothetical AI-spend scenarios**, not cloud billing audits or verified savings forecasts.
 
-**Interested in trying it?** [Browse source](https://github.com/damunozx123-debug/ai-certainty-calculator) · [Download source ZIP](https://github.com/damunozx123-debug/ai-certainty-calculator/archive/refs/heads/main.zip) · [Report an issue](https://github.com/damunozx123-debug/ai-certainty-calculator/issues) · ⭐ Star the repository if it helped.
+![Scenario dashboard captured from the actual Streamlit app in GitHub Actions](docs/screenshots/scenario-desktop.png)
 
+*Example inputs only. Screenshot is automated browser evidence, not a validated customer outcome.*
 
-> A compact Streamlit experiment for exploring the financial effect of a **user-specified cost variance**. **Not an audit, billing integration, or validated savings forecast.**
+## Quick start
 
-[![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)](https://www.python.org/) [![Streamlit](https://img.shields.io/badge/Streamlit-prototype-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
+Requires Python 3.10+.
 
-## What it does
-
-Give the calculator a monthly AI infrastructure spend and an assumed variance. It displays the hypothetical difference at a monthly and annual scale. The model selection is a UI field only and currently **does not change the calculation**.
-
-| Input | Purpose |
-| --- | --- |
-| Monthly AI spend | Base amount for the scenario |
-| Primary model | Descriptive selection; not used by the formula |
-| Typical surprise percentage | User-chosen scenario assumption, **not** observed waste |
-
-The calculations are deliberately simple:
-
-```text
-estimated monthly variance = monthly spend × (assumed variance % / 100)
-estimated annual variance = estimated monthly variance × 12
-illustrative payback days = 5,000 / estimated monthly variance × 30
-```
-
-**Important:** The original UI calls these values an “uncertainty tax”, “annual waste” and “audit pays back” but **no underlying billing, measurement, auditing, or customer validation exists**. The `$5,000` audit fee in the formula is an assumed constant. The “Book Audit” button is not connected to a booking service.
-
-## Run locally
-
-The source is currently a single Python script named `App. Py` (with a space in the filename).
-
-```bash
+```sh
+git clone https://github.com/damunozx123-debug/ai-certainty-calculator.git
+cd ai-certainty-calculator
+python3 -m venv .venv
+. .venv/bin/activate
 python -m pip install streamlit
-streamlit run "App. Py"
+streamlit run app.py
 ```
 
-Open the local address printed by Streamlit. No API key, external billing connection or remote database is required by this prototype.
+Windows PowerShell: `py -m venv .venv`, `.venv\Scripts\Activate.ps1`, then `py -m streamlit run app.py`.
 
-## Current limitations
+## What the numbers mean
 
-- No real cloud billing or GPU usage data is imported.
-- No evidence that the assumed variance represents recoverable cost.
-- No benchmark, workload optimisation, cost attribution or currency conversion.
-- No verified financial ROI; the payback figure is illustrative.
-- No automated test suite or hosted deployment documented in this repository.
+Choose a hypothetical monthly infrastructure spend, a user-assumed variance percentage and an assumed one-off audit fee.
 
-## Next development priorities
+| Output | Formula |
+|---|---|
+| Illustrative monthly difference | spend × percentage / 100 |
+| Annualised scenario difference | monthly difference × 12 |
+| Hypothetical payback days | audit fee / monthly difference × 30, when monthly difference > 0 |
 
-1. Rename the source to `app.py`, add pinned dependencies and reproducible tests.
-2. Replace “waste” wording with “scenario variance” throughout the UI and remove the inactive booking button.
-3. Add explicit currency and unit labels, input validation and downloadable scenarios.
-4. Introduce a documented real-cost data input with provenance, then compare scenarios against actual invoices.
-5. Publish a worked example with labelled synthetic data before making any commercial claims.
+The reference model selector has **no influence** on calculations. This app does **not** connect to provider billing, assess real waste, price an audit, book appointments, estimate recoverable savings or prove demand. No externally validated cost model is supplied.
 
-## Maintainer
+## Validation
 
-Created by [Daniel Munoz](https://github.com/damunozx123-debug). Related public project: [Ventoy Fetch](https://github.com/damunozx123-debug/ventoy-fetch).
+```sh
+python -m pip install pytest
+python -m pytest -q
+```
+
+[CI verifies tests and captures the real Streamlit UI](.github/workflows/verify.yml).
+
+## Guides
+
+- [Install and limitations](docs/INSTALL.md)
+- [Screenshot evidence rules](docs/SCREENSHOTS.md)
+- [MIT licence](LICENSE)
+
+Maintained by [Daniel Munoz](https://github.com/damunozx123-debug).
