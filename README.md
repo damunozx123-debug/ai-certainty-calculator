@@ -1,5 +1,10 @@
 # AI Infrastructure Cost Sensitivity Calculator
 
+> **👋 Made by Daniel Munoz** · [Meet the maker](https://github.com/damunozx123-debug/ventoy-fetch/blob/master/PORTFOLIO.md) · [Other projects](https://github.com/damunozx123-debug/ventoy-fetch/blob/master/PROJECTS.md) · [Hire / contact](mailto:damunozx123@gmail.com?subject=Technical%20work%20opportunity)
+
+**Interested in trying it?** [Browse source](https://github.com/damunozx123-debug/ai-certainty-calculator) · [Download source ZIP](https://github.com/damunozx123-debug/ai-certainty-calculator/archive/refs/heads/main.zip) · [Report an issue](https://github.com/damunozx123-debug/ai-certainty-calculator/issues) · ⭐ Star the repository if it helped.
+
+
 > A compact Streamlit experiment for exploring the financial effect of a **user-specified cost variance**. **Not an audit, billing integration, or validated savings forecast.**
 
 [![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)](https://www.python.org/) [![Streamlit](https://img.shields.io/badge/Streamlit-prototype-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
