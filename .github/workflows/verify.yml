@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'App. Py'
+      - 'app.py'
       - 'calculator.py'
       - 'tests/**'
       - '.github/workflows/verify.yml'
@@ -26,7 +26,7 @@ jobs:
       - run: python -m pytest -q
       - name: Start actual Streamlit app
         run: |
-          streamlit run "App. Py" --server.headless true --server.address 127.0.0.1 --server.port 8501 --browser.gatherUsageStats false > /tmp/streamlit.log 2>&1 &
+          streamlit run "app.py" --server.headless true --server.address 127.0.0.1 --server.port 8501 --browser.gatherUsageStats false > /tmp/streamlit.log 2>&1 &
           for i in {1..20}; do if curl -fsS http://127.0.0.1:8501/_stcore/health; then exit 0; fi; sleep 1; done
           cat /tmp/streamlit.log
           exit 1
