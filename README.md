@@ -8,7 +8,14 @@ A small open-source Streamlit app for **hypothetical AI-spend scenarios**, not c
 
 *Example inputs only. Screenshot is automated browser evidence, not a validated customer outcome.*
 
-## Quick start
+## Zero-install offline app (recommended for customers)
+
+**[Download the standalone HTML file](web/index.html)** from the repository (use GitHub's Raw or Download raw file option), then open it in a modern browser. All styling and calculations are embedded in that one file. No Python, npm, terminal, internet connection after download, or ZIP extraction is needed. It matches the existing `calculator.py` formulas and clearly labels every number as hypothetical.
+
+Tests: `node --test tests/offline_web.test.mjs`. The original Streamlit application remains available below for developers.
+
+## Streamlit development setup
+
 
 Requires Python 3.10+.
 
