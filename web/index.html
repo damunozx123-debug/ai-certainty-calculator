@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#131a27">
+  <meta name="description" content="Offline, illustrative AI infrastructure cost sensitivity calculator.">
+  <title>AI Infrastructure Cost Sensitivity</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color-scheme:dark;background:#0d111a;color:#e8edf5}
+    *{box-sizing:border-box}body{max-width:960px;margin:0 auto;padding:clamp(16px,4vw,40px)}
+    h1{font-size:clamp(1.65rem,5vw,2.5rem);line-height:1.15;margin:0 0 10px}
+    .muted{color:#b5c0d2;line-height:1.5}.sub{font-size:.875rem;letter-spacing:.08em;text-transform:uppercase;color:#a5c1e9}
+    .panel{border:1px solid #344055;background:#161e2d;border-radius:14px;padding:clamp(16px,3vw,26px);margin:22px 0}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    label{display:block;font-weight:600;margin-bottom:7px}
+    input,select{width:100%;padding:13px;font-size:1rem;background:#0c131f;color:#fff;border:1px solid #63708a;border-radius:9px}
+    input:focus,select:focus{outline:3px solid #80b8ff;outline-offset:1px}
+    .result{padding:16px;border:1px solid #344055;border-radius:12px;background:#101726}
+    .number{font-variant-numeric:tabular-nums;font-size:clamp(1.35rem,3vw,2.1rem);font-weight:750;margin:8px 0}
+    .result small{color:#b3bfd0}.wide{grid-column:1/-1}.notice{border-left:4px solid #e5b868;padding:12px 16px;background:#2b261b;line-height:1.55}
+    footer{font-size:.85rem;color:#a3afbf;margin-top:30px}a{color:#a9ccff}
+    @media(max-width:640px){.grid{grid-template-columns:1fr}.wide{grid-column:1}}
+  </style>
+</head>
+<body>
+  <div class="sub">Offline · No account · No dependencies</div>
+  <h1>AI Infrastructure Cost Sensitivity</h1>
+  <p class="muted">Explore hypothetical spending assumptions. This calculator does not connect to a bill, collect personal data, or measure savings.</p>
+  <main>
+    <section class="panel grid" aria-label="Scenario inputs">
+      <div><label for="spend">Assumed monthly AI spend ($)</label><input id="spend" type="number" min="0" step="1000" value="200000" inputmode="decimal"></div>
+      <div><label for="variance">User-assumed variance (%)</label><input id="variance" type="number" min="0" max="100" step="1" value="35" inputmode="decimal"></div>
+      <div><label for="fee">Hypothetical one-time audit fee ($)</label><input id="fee" type="number" min="0" step="100" value="5000" inputmode="decimal"></div>
+      <div><label for="model">Reference model (informational only)</label><select id="model"><option>GPT-4o</option><option>Llama 70B</option><option>Claude 3.5</option><option>Custom</option></select></div>
+      <p id="error" class="wide" role="alert" style="margin:0;color:#ffb0a9" hidden>Check your inputs: spend and fee must be nonnegative; percentage must be 0–100.</p>
+    </section>
+    <section class="grid" aria-live="polite" aria-label="Calculated scenario results">
+      <div class="result"><small>Illustrative monthly difference</small><div class="number" id="monthly">$70,000</div></div>
+      <div class="result"><small>Annualised scenario difference</small><div class="number" id="annual">$840,000</div></div>
+      <div class="result wide"><small>Hypothetical fee / variance payback ratio</small><div class="number" id="payback">2.1 days</div><small>Only meaningful if the entire assumed variance were recoverable, which has not been established.</small></div>
+    </section>
+  </main>
+  <p class="notice"><strong>Important:</strong> These are scenario calculations, not verified waste, attainable savings, a customer ROI, or proof of demand. Reference model selection has no effect on calculations.</p>
+  <footer>Works from a single HTML file, with no installation, packages, tracking, external network resources, or account.</footer>
+  <script>
+  'use strict';
+  // Mirrors calculator.py; no external scripts or third-party dependencies.
+  function calculate(monthlySpend, variancePct, fee) {
+    if (![monthlySpend, variancePct, fee].every(Number.isFinite) || monthlySpend < 0 || fee < 0 || variancePct < 0 || variancePct > 100) throw new RangeError('Invalid scenario');
+    const monthly = monthlySpend * variancePct / 100;
+    return { monthly, annual: monthly * 12, days: monthly > 0 ? fee / monthly * 30 : null };
+  }
+  const $ = id => document.getElementById(id);
+  const dollars = n => new Intl.NumberFormat('en-NZ', {style:'currency', currency:'NZD', maximumFractionDigits:0}).format(n);
+  function update() {
+    const values=['spend','variance','fee'].map(id=>$(id).value.trim());
+    try {
+      if(values.some(x=>x==='')) throw new RangeError('Empty input');
+      const r=calculate(...values.map(Number));
+      $('error').hidden=true;
+      $('monthly').textContent=dollars(r.monthly);
+      $('annual').textContent=dollars(r.annual);
+      $('payback').textContent=r.days===null?'Not defined (zero variance)':new Intl.NumberFormat('en-NZ',{maximumFractionDigits:1}).format(r.days)+' days';
+    } catch {
+      $('error').hidden=false;
+      for(const id of ['monthly','annual','payback'])$(id).textContent='—';
+    }
+  }
+  for(const id of ['spend','variance','fee','model'])$(id).addEventListener('input',update);
+  update();
+  </script>
+</body>
+</html>
