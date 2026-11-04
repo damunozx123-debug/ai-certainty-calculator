@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'app.py'
+      - 'web/**'
       - 'calculator.py'
       - 'tests/**'
       - '.github/workflows/verify.yml'
@@ -24,6 +25,8 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install streamlit pytest playwright
       - run: python -m pytest -q
+      - name: Verify dependency-free offline web application
+        run: node --test tests/offline_web.test.mjs
       - name: Start actual Streamlit app
         run: |
           streamlit run "app.py" --server.headless true --server.address 127.0.0.1 --server.port 8501 --browser.gatherUsageStats false > /tmp/streamlit.log 2>&1 &
